@@ -1,0 +1,353 @@
+<%CSSstart%>
+textarea{
+    width: 60%;
+}
+
+#caption{
+ width: 90%;
+}
+
+.question{
+    padding-top: 20px;
+}
+
+
+.del{
+    color: red;
+    cursor: pointer;
+    padding-bottom: 10px;
+    text-decoration: none;
+}
+
+#add_question{
+    padding: 10px 0 10px 0;
+}
+
+input.points{
+    width: 40px;
+}
+
+#new_test{
+    padding-top: 20px;
+}
+
+
+#admin_title{
+    padding-top: 20px;
+    margin-bottom: 40px;
+    font-size: 24pt;
+    text-align: center;
+}
+
+#admin_section{
+    padding-left: 70px;
+}
+
+
+.addq{
+    color: #244490;
+    text-decoration: none;
+    border-bottom: dashed #000 1px;
+}
+
+a.addq:hover{
+    border-bottom: dashed #CDBA6C 1px;
+}
+
+
+#start_button{
+    background-color: #cdba6c;
+    border: none;
+    padding: 3px 20px 3px 20px;
+    color: #fff;
+    font-size: 13pt;
+    margin: 10px 0 0 -20px;
+    width: 300px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.bottom_line{
+    height: 20px;
+    width: 490px;
+    line-height: 10px;
+    border-bottom: solid #000 1px;
+    margin-left: -50px;
+}
+
+.warning{
+	padding: 10px;
+	background: yellow;
+}
+
+#ie_fatal{
+	display: none;
+}
+
+<%CSSend%>
+
+
+<noscript>
+ <div class="warning" >Для работы редактора тестов необходимо включить поддержку JavaScript.</div>
+</noscript>
+
+<div class="warning" id="ie_fatal">Редактор тестов не поддерживает браузеры семейства Internet Explorer.<br>
+Пожаулуйста, установите и воспользуйтесь одним из следующих браузеров: <a href="http://www.mozilla-europe.org/ru/firefox/">Firefox</a>, <a <a href="http://www.google.ru/chrome/">Chrome</a>.
+</div>
+
+<script>
+if(window.ActiveXObject) 
+	$('ie_fatal').style.display="block"
+</script>
+
+<div class="section">
+
+<div id="admin_title">Редактор</div>
+
+<div id="admin_section">
+
+
+<form action="/edit/<!-- TEST_NAME -->" method="POST">
+    <input id="caption" name="caption" value=""><br>
+
+    <div id="questions">
+	<div id="loading">Загружаются тестовые вопросы...</div>
+    </div>
+
+    <div id="add_question">
+	<a class="addq" href="javascript:addQuestion()">Добавить вопрос</a><br>
+    </div>
+
+    <div id="start_button" onmousedown="saveTest()">Сохранить</div>
+    <input type="hidden" id="qcount" name="qcount" value="0">
+</form>
+&nbsp;
+
+<script>
+Questions = $("questions")
+Qcount = $("qcount")
+
+TEST_PART = 1
+GLOBAL_EDITOR = null
+
+    function ghostField(f){
+	f.ghostText = f.value
+	f.style.color='#8C8C9E'
+	f.onfocus = function(){ if(this.value==this.ghostText){ this.value=''; this.style.color='#000' }}
+	f.onblur = function(){ if(this.value==''){this.value=this.ghostText; this.style.color='#8C8C9E'}}
+    }
+
+    function delQuestion(qid){
+	$("questions").removeChild($('question'+qid))
+    }
+
+    function smartField(name, label, alt_label){
+	var input = document.createElement('input')
+	input.setAttribute('name', name)
+	input.setAttribute('type', 'hidden')
+	input.setAttribute('value', label)
+
+	var txt_span = document.createElement('span')
+	txt_span.appendChild(document.createTextNode((label)?(label):(alt_label)))
+	if (! label) txt_span.style.color='#8C8C9E'
+	
+	var span = document.createElement('span')
+	span.ctrl = input
+	span.txt  = txt_span
+	span.alt_label = alt_label
+
+	span.onmousedown= function(){
+	    if (this.txt.style.display == "none") return
+	    if(GLOBAL_EDITOR){ GLOBAL_EDITOR.onblur() }
+
+	    var editor = document.createElement('textarea')
+	    GLOBAL_EDITOR = editor
+	    editor.innerHTML = this.txt.innerHTML
+	    editor.master = this
+	    editor.removed = false
+
+	    editor.setTxt = function(){
+		if(this.value){
+		    this.master.txt.innerHTML = this.value
+		    this.master.txt.style.color = '#000'
+		}else{
+		    this.master.txt.innerHTML = this.master.alt_label
+		    this.master.txt.style.color = '#8C8C9E'
+		}
+	    }
+	    editor.onblur = function(){
+		if (this.removed || this.focus_lock) return
+		this.removed = true
+
+		this.master.txt.style.display = "inline"
+		this.setTxt()
+
+		this.master.ctrl.setAttribute('value', this.value)
+		this.master.removeChild(this)
+		GLOBAL_EDITOR = null
+	    }
+	    editor.onkeyup = function(){
+		this.master.txt.innerHTML = this.value
+		this.master.ctrl.setAttribute('value', this.value)
+	    }
+
+	    this.txt.style.display = "none"
+	    this.appendChild(editor)
+	 }
+
+	span.appendChild(txt_span)
+	span.appendChild(input)
+
+	return span
+    }
+
+    function addQuestion(label, hint, points){
+	label = (label)?(label):("")
+	hint = (hint)?(hint):("")
+	points = (points)?(points):(1)
+
+	var qid = Qcount.value
+	
+	var d = document.createElement('div')
+	d.setAttribute('class', "question")
+	d.setAttribute('id', "question"+qid)
+
+	var qd = document.createElement('div')
+	qd.setAttribute('id', "q"+qid )
+	d.appendChild(qd)
+
+	qd.appendChild(smartField('q'+qid, label, "Вопрос"))
+
+	var del = document.createElement('a')
+	del.setAttribute('class', 'del')
+	del.setAttribute('href', 'javascript:delQuestion('+qid+')')
+	del.appendChild(document.createTextNode(' x'))
+	qd.appendChild(del)
+
+	qd.appendChild(document.createElement('br'))
+
+	qd.appendChild(smartField('h'+qid, hint, "Разъеснение"))
+
+	qd.appendChild(document.createElement('br'))
+
+	i = document.createElement('input')
+	i.setAttribute('name', 'p'+qid)
+	i.setAttribute('value', points)
+	i.setAttribute('class', 'points')
+
+	qd.appendChild(i)
+	qd.appendChild(document.createElement('br'))
+
+	i = document.createElement('a')
+	i.setAttribute('class', 'addq')
+	i.setAttribute('href', 'javascript:addAnswer('+qid+')')
+	i.appendChild(document.createTextNode('Добавить вариант ответа'))
+	d.appendChild(i)
+
+	i = document.createElement('input')
+	i.setAttribute('type', 'hidden')
+	i.setAttribute('name', 'acount'+qid)
+	i.setAttribute('id', 'acount'+qid)
+
+	i.setAttribute('value', '0')
+	d.appendChild(i)
+	Qcount.value++
+
+	Questions.appendChild(d)
+
+	bl = document.createElement('div')
+	bl.setAttribute('class', 'bottom_line')
+	bl.innerHTML = "&nbsp;"
+	Questions.appendChild(bl)
+
+
+	if (label != "") return qid
+    }
+
+    function delAnswer(qid, aid){
+	 $("q"+qid).removeChild($('a'+qid+'_'+aid)) 
+    }
+    
+    function addAnswer(id, text,  right){
+	text = (text)?(text):("")
+	right = (right)?(right):(false)
+
+	var q = $("q"+id)
+	var acount = $("acount"+id)
+	var ans_id = acount.value
+
+	var aid = 'a'+id+'_'+ans_id
+
+	d = document.createElement('div')
+	d.setAttribute('id', aid)
+
+	var i = document.createElement('input')
+	i.setAttribute('name', "r"+id+"_"+ans_id)
+	i.setAttribute('type', "checkbox")
+	i.setAttribute('value', "1")
+	if (right) i.setAttribute('checked', "checked")
+	d.appendChild(i)
+
+	d.appendChild(smartField(aid, text, "Вариант ответа"))
+
+
+	var del = document.createElement('a')
+	del.setAttribute('class', 'del')
+	del.setAttribute('href', 'javascript:delAnswer('+id+',' +ans_id+')')
+	del.appendChild(document.createTextNode(' x'))
+	d.appendChild(del)
+
+	q.appendChild(d)
+
+	acount.value++
+    }
+
+
+SAVE_LOCK=false
+
+function isSaved(doc){
+    var start_button = $('start_button')
+    start_button.style.background = start_button.orig_color
+    SAVE_LOCK = false
+}
+
+function saveTest(){
+    if(SAVE_LOCK) return
+    SAVE_LOCK = true
+
+    inputs = $('admin_section').getElementsByTagName('input')
+    var items = new Array()
+    for (var i=0; i < inputs.length; i++){
+	if (inputs[i].type == "checkbox" && inputs[i].checked != true)
+	    continue
+	else if(!inputs[i].value)
+	    continue
+
+	items[inputs[i].name] = inputs[i].value
+    }
+
+    var start_button = $('start_button')
+    if (! start_button.orig_color) start_button.orig_color = start_button.style.background
+    start_button.style.background = 'gray'
+
+    new Caller(isSaved).execPOST('/edit/<!-- TEST_NAME -->', items)
+}
+
+function loadTest(doc){
+	$('caption').value = doc.getAttribute('caption')
+	var questions = doc.getElementsByTagName('question')
+	for (var q = 0; q < questions.length; q++){
+	    qid = addQuestion(questions[q].getAttribute('label'), questions[q].getAttribute('hint'),  questions[q].getAttribute('points'))
+	    var answers = questions[q].getElementsByTagName('answer')
+	    for (var a = 0; a < answers.length; a++){
+		addAnswer(qid, answers[a].childNodes[0].nodeValue, (answers[a].getAttribute('right')=='true'))
+	    }
+	}
+
+	$('questions').removeChild($('loading'))
+}
+
+new Caller(loadTest).execGET('/xmltest/<!-- TEST_NAME -->')
+
+setInterval(saveTest, 30000)
+</script>

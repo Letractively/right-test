@@ -1,0 +1,98 @@
+<%CSSstart%>
+
+.question{
+    font-size: 16pt;
+}
+
+.hint{
+    /* border: solid #000 1px; */
+    background-color: #e8a38d;
+    padding: 10px;
+    width: 70%;
+    margin-bottom: 5px;
+}
+
+.bottom_line{
+    display: none;
+}
+
+#start_button{
+    background-color: #cdba6c;
+    border: none;
+    padding: 3px 20px 3px 20px;
+    color: #fff;
+    font-size: 13pt;
+    margin: 25px 0 0 50px;
+    width: 300px;
+    margin-bottom: 50px;
+}
+
+#admin_section{
+    padding: 40px 70px  0 70px;
+}
+
+.label{
+    padding: 7px;
+    margin-bottom: 5px;
+    background: #009bd0;
+    color: #fff;
+    font-size: 18pt;
+}
+
+.answer{
+    padding: 7px;
+    margin-bottom: 5px;
+    background: #54c0e6;
+    color: #fff;
+}
+
+.answer strong{
+    text-decoration: underline;
+}
+
+
+#counter{
+    position: absolute;
+    top: 215px;
+    font-size: 12pt;
+    padding: 5px 0 0 10px;
+}
+
+#error{
+    color: red;
+    font-weight: bold;
+    font-size: 16pt;
+    margin-bottom: 10px;
+
+}
+
+.right_answer{
+    font-weight: bold;
+}
+
+.wrong_answer{
+    background: #dadada;
+    color: red;
+}
+
+.left_answer{
+    background: #dadada;
+}
+
+
+<%CSSend%>
+
+<div class="section">
+<div id="counter_pos"><div id="counter"><!-- CURRENT -->/<!-- TOTTAL --></div></div>
+
+<div id="admin_section">
+<form action="/test" method="POST">
+    <div id="error"><!-- ERROR --></div>
+    <!-- QUESTION -->
+
+    <div>
+	<input id="start_button" type="submit" value="<!-- NEXT -->">
+    </div>
+</form>
+</div>
+</div>

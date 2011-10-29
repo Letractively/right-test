@@ -1,0 +1,86 @@
+<%CSSstart%>
+#admin_title{
+    padding-top: 20px;
+    margin-bottom: 40px;
+    font-size: 24pt;
+    text-align: center;
+}
+
+#admin_section{
+    padding-left: 70px;
+}
+
+.control_block{
+    font-size: 11pt;
+    margin-bottom: 20px;
+}
+
+.control_block input, .control_block select{
+    margin-left: 15px;
+}
+
+#start_button{
+    background-color: #cdba6c;
+    border: none;
+    padding: 3px 20px 3px 20px;
+    color: #fff;
+    font-size: 13pt;
+    margin: 10px 0 0 50px;
+    width: 300px;
+}
+
+#bottom_line{
+    height: 20px;
+    width: 490px;
+    line-height: 10px;
+    border-bottom: solid #000 1px;
+    margin-left: 30px;
+}
+
+#logo_img{
+    float: right;
+    position: relative;
+    left: -390px;
+    top: 120px;
+}
+
+#logo_img img{
+    position: absolute;
+}
+
+#www_address{
+    text-align: center;
+}
+
+<%CSSend%>
+
+<div id="logo_img"><img src="/media/logo.png"></div>
+
+<div class="section">
+    <form action="/" method="POST">
+	<div id="admin_title">Настройка тестирования</div>
+
+	<div id="admin_section">
+	    <div class="control_block">
+		Проводимый тест:<br>
+		<!-- TEST_LIST -->
+	    </div>
+
+	    <div class="control_block">
+		Количество вопросов из теста:<br>
+		<input name="test_count" value="30">
+	    </div>
+
+	    <div class="control_block">
+		Режим тестирования:<br>
+		<input type="radio" name="test_mode" value="screen" id="screen_radio" checked><label for="screen_radio">Экранами</label><br>
+		<input type="radio" name="test_mode" value="list" id="list_radio"><label for="list_radio">Списком<label><br>
+	    </div>
+	</div>
+        <input id="start_button" type="submit" value="Начать тестирование">
+	<div id="bottom_line">&nbsp;</div>
+    </form>
+
+<div id="www_address"><!-- WWW_ADDRESS --></div>
+</div>
+

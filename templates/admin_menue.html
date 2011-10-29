@@ -1,0 +1,50 @@
+<%CSSstart%>
+#admin_menue{
+    padding-bottom: 20px;
+    text-align:center;
+}
+
+#admin_buttons{
+    width:600px;
+    margin:0px auto;
+}
+.admin_button{
+    float: left;
+    background-image: url(/media/button.png);
+    width: 189px;
+    text-align: center;
+    line-height: 50px;
+    margin-right: 10px;
+}
+
+#admin_menue, .admin_button{
+    height: 50px;
+}
+
+.admin_button a{
+    font-size: 17pt;
+    color: #fff;
+    text-decoration: none;
+    border-bottom: dashed #000 1px;
+}
+
+.admin_button a:hover{
+    border-bottom: dashed yellow 1px;
+}
+
+
+<%CSSend%>
+
+<div id="admin_menue">
+    <div id="admin_buttons">
+	<div class="admin_button">
+	    <a href="/admin">настройки</a>
+	</div>
+	<div class="admin_button">
+	    <a href="/results">результаты</a>
+	</div>
+	<div class="admin_button">
+	    <a href="/edit">редактор</a>
+	</div>
+    </div>
+</div>

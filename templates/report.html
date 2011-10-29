@@ -1,0 +1,86 @@
+<%CSSstart%>
+
+#h{
+    font-size: 18pt;
+    text-align: center;
+    padding-top: 20px;
+    margin-bottom: 40px;
+}
+
+.user_name, .user_rank{
+    width: 22%;
+}
+
+#test_title{
+    font-size: 14pt;
+    margin-top: 20px;
+}
+
+#theader td{
+    vertical-align: top;
+    text-align: center;
+    font-weight: bold;
+}
+
+.center{
+    text-align: center;
+}
+
+
+#gsign{
+    font-size: 14pt;
+    margin-top: 60px;
+}
+
+#work{
+    float: left;
+	margin-right: 10px;
+}
+
+#sign{
+    float: left;
+    width: 450px;
+    border-bottom: solid #000 1px;
+}
+
+table{
+    width: 100%;
+    border: solid 1px #000;
+}
+
+table tr td{
+    border: solid 1px #000;
+
+}
+
+<%CSSend%>
+
+<div class="section">
+
+<div id="h">Результаты тестирования</div>
+<table cellspacing="0">
+<tr id="theader">
+ <td class="user_name">Ф.И.О</td>
+ <td class="user_rank">Группа</td>
+ <td  class="center">Название<br>теста</td>
+ <td  class="center">Всего<br>вопросов</td>
+ <td  class="center">Всего<br>правильных<br>ответов</td>
+ <td  class="center">Дата и время<br>проведения теста</td>
+</tr>
+<tr>
+ <td class="user_name"><!-- USER_NAME --></td>
+ <td class="user_rank"><!-- USER_RANK --></td>
+ <td class="center"><!-- TEST_TITLE --></td>
+ <td class="center"><!-- QUESTION_COUNT --></td>
+ <td class="center"><!-- ANSWERED_QUESTION_COUNT --> (<!-- ANSWERED_QUESTION_COUNT_PERCENT -->%)</td>
+ <td class="center"><!-- DATE --></td>
+</tr>
+</table>
+
+<!-- div id="points">Набрано баллов: <!-- TEST_RESULT --></div-->
+
+
+<div id="gsign"><div id="work">Подпись<br></div>  <div id="sign">&nbsp;</div></div>
+&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;
+</div>
+

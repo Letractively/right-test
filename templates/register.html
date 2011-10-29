@@ -1,0 +1,83 @@
+<%CSSstart%>
+#admin_title{
+    padding-top: 20px;
+    margin-bottom: 40px;
+    font-size: 24pt;
+    text-align: center;
+}
+
+#admin_section{
+    padding-left: 70px;
+}
+
+.hint{
+    border: solid #000 1px;
+    background-color: #e8a38d;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+input, .hint{
+    width: 400px;
+}
+
+#start_button{
+    background-color: #cdba6c;
+    border: none;
+    padding: 3px 20px 3px 20px;
+    color: #fff;
+    font-size: 13pt;
+    margin: 30px 0 0 50px;
+    width: 300px;
+}
+
+#bottom_line{
+    height: 10px;
+    width: 490px;
+    line-height: 10px;
+    border-bottom: solid #000 1px;
+    margin: 30px 0 10px -50px;
+}
+
+#car_img{
+    float: right;
+    position: relative;
+    left: -390px;
+    top: 225px;
+}
+
+#car_img img{
+    position: absolute;
+}
+
+<%CSSend%>
+
+<div id="car_img"><img src="/media/car.gif"></div>
+
+
+<div class="section">
+
+<div id="admin_title">Регистрация</div>
+
+<div id="admin_section">
+
+<div class="hint">
+    Введите Ваши фамилию, имя, отчество и группу в соответсвующие поля и нажмите кнопку "начать тестирования".<br>
+    Вам будет предложено ответить на ряд вопросов. Для ответа выберите один из предоставленных вариантов, который по Вашему мнению является верным.
+</div>
+
+<form action="/test" method="POST">
+    Фамилия имя отчество:<br>
+    <input name="user_name"><br>
+
+    Группа:<br>
+    <input name="user_rank"><br>
+
+    <input id="start_button" type="submit" value="Начать тестирование">
+</form>
+
+<div id="bottom_line">&nbsp;</div>
+&nbsp;
+
+</div>
+</div>

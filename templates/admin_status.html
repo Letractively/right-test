@@ -1,0 +1,226 @@
+<%CSSstart%>
+#admin_title{
+    padding-top: 20px;
+    margin-bottom: 40px;
+    font-size: 24pt;
+    text-align: center;
+}
+
+#admin_section{
+    padding-left: 70px;
+}
+
+.control_block{
+    font-size: 11pt;
+    margin-bottom: 20px;
+}
+
+.control_block input, .control_block select{
+    margin-left: 15px;
+}
+
+#start_button{
+    background-color: #cdba6c;
+    border: none;
+    padding: 3px 20px 3px 20px;
+    color: #fff;
+    font-size: 13pt;
+    margin: 10px 0 0 50px;
+    width: 300px;
+}
+
+#bottom_line{
+    height: 20px;
+    width: 490px;
+    line-height: 10px;
+    border-top: solid #000 1px;
+    margin: 30px 0 0 30px;
+}
+
+#car_img{
+    float: right;
+    position: relative;
+    left: -390px;
+    top: 120px;
+}
+
+#car_img img{
+    position: absolute;
+}
+
+#nobody{
+    line-height: 60px;
+    height: 60px;
+}
+
+#users{
+    padding: 20px 0 20px 0;
+}
+
+#table_users{
+    margin-top: 10px;
+}
+
+#score{
+    display: none;
+}
+
+.user_name{
+    width: 300px;
+    border-bottom: solid #000 1px;
+}
+
+.result{
+    border-bottom: solid #000 1px;
+}
+
+.ctrl_button{
+    background-color: #cdba6c;
+    border: none;
+    padding: 3px 20px 3px 20px;
+    color: #fff;
+    font-size: 13pt;
+    margin: 10px 0 0 50px;
+    width: 300px;
+    text-align: center;
+}
+
+.ctrl_button a{
+    color: #fff;
+    text-decoration: none;
+}
+
+.end_button{
+    background-color: #cd936c;
+}
+
+#www_address{
+    text-align: center;
+}
+
+.warning{
+	padding: 10px;
+	background: yellow;
+}
+
+#ie_fatal{
+	display: none;
+}
+<%CSSend%>
+
+<noscript>
+ <div class="warning" >Для отображения статистики необходимо включить поддержку JavaScript.</div>
+</noscript>
+
+<div class="warning" id="ie_fatal">Просмотр статистика не поддерживается в браузерах семейства Internet Explorer.<br>
+Пожаулуйста, установите и воспользуйтесь одним из следующих браузеров: <a href="http://www.mozilla-europe.org/ru/firefox/">Firefox</a>, <a <a href="http://www.google.ru/chrome/">Chrome</a>.
+</div>
+
+<script>
+if(window.ActiveXObject) 
+	$('ie_fatal').style.display="block"
+</script>
+
+<div id="car_img"><img src="/media/car.gif"></div>
+
+<div class="section">
+
+<div id="admin_title">Идет тестирование</div>
+
+<div id="admin_section">
+
+<div class="curr_test">
+Проводимый тест: <!-- CURR_TEST --><br>
+Количество вопросов в тесте: <!-- QUESTIONS_COUNT --><br>
+Режим показа теста: <!-- TEST_DISPLAY_MODE --><br>
+</div>
+
+<div id="users">
+<div id="nobody">Нет тестируемых</div>
+<div id="score">
+    Тестируемые:
+    <table id="table_users">
+    </table>
+</div>
+</div>
+</div>
+
+<script>
+
+IMAX = 0
+
+function loadUsers(doc){
+    addUser = function(i, name, result, answered){
+	var tr = $('tr_user'+i)
+	if(!tr){
+	    tr = document.createElement('tr')
+	    tr.setAttribute('id', 'tr_user'+i)
+	    tr.setAttribute('class', 'user_row')
+
+	    var td_name = document.createElement('td')
+	    td_name.setAttribute('id', 'td_user_name'+i)
+	    td_name.setAttribute('class', 'user_name')
+	    tr.appendChild(td_name)
+
+	    var td_result = document.createElement('td')
+	    td_result.setAttribute('id', 'td_result'+i)
+	    td_result.setAttribute('class', 'result')
+	    tr.appendChild(td_result)
+
+	    var td_answered = document.createElement('td')
+	    td_answered.setAttribute('id', 'td_answered'+i)
+	    td_answered.setAttribute('class', 'result')
+	    tr.appendChild(td_answered)
+
+	    $('table_users').appendChild(tr)
+	}else{
+	    var td_name = $('td_user_name'+i)
+	    var td_result = $('td_result'+i)
+	    var td_answered = $('td_answered'+i)
+	}
+
+	td_name.innerHTML=name
+	td_result.innerHTML=result
+	td_answered.innerHTML='('+answered+')'
+    }
+
+    var users =  doc.getElementsByTagName('user')
+    if (users.length){
+	$('score').style.display="block"
+	$('nobody').style.display="none"
+    }else{
+	$('score').style.display="none"
+	$('nobody').style.display="block"
+    }
+
+    for (var i = 0; i < users.length; i++){
+	 result = users[i].getAttribute('result')
+	 name = users[i].getAttribute('name')
+	 answered = users[i].getAttribute('answered')
+
+	 if (users[i].getAttribute('complete') == "1"){
+	     result = '<strong>'+result+'</strong>'
+	     name = '<strong>'+name+'</strong>'
+	     answered = '<strong>'+answered+'</strong>'
+	 }
+	 addUser( i, name, result, answered)
+    }
+    if( i > IMAX) IMAX = i
+    else
+    for (; i < IMAX; i++){
+	$('td_user_name'+i).innerHTML=''
+	$('td_result'+i).innerHTML=''
+    }
+}
+
+setInterval(" new Caller(loadUsers).execGET('/xmlusers')", 1000);
+</script>
+
+<div class="ctrl_button end_button"><a href="/admin/stop">Закончить тестирование</a></div>
+<div class="ctrl_button"><a href="/test">Пройти тест</a></div>
+
+<div id="bottom_line">&nbsp;</div>
+<div id="www_address"><!-- WWW_ADDRESS --></div>
+
+</div>
+</div>

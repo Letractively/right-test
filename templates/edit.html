@@ -1,0 +1,139 @@
+<%CSSstart%>
+#new_test{
+    padding-top: 20px;
+}
+
+
+#admin_title{
+    padding-top: 20px;
+    margin-bottom: 40px;
+    font-size: 24pt;
+    text-align: center;
+}
+
+#admin_section{
+    padding-left: 70px;
+}
+
+
+.tests a{
+    color: #000;
+    text-decoration: none;
+    border-bottom: dashed #000 1px;
+}
+
+.tests a:hover{
+    border-bottom: dashed #CDBA6C 1px;
+}
+
+.tests{
+    padding-left: 15px;
+    line-height: 30px;
+    width: 400px;
+}
+
+#start_button{
+    background-color: #cdba6c;
+    border: none;
+    padding: 3px 20px 3px 20px;
+    color: #fff;
+    font-size: 13pt;
+    margin: 10px 0 0 -20px;
+    width: 300px;
+}
+
+#bottom_line{
+    height: 20px;
+    width: 490px;
+    line-height: 10px;
+    border-bottom: solid #000 1px;
+    margin-left: -50px;
+}
+
+#logo_img{
+    float: right;
+    position: relative;
+    left: -390px;
+    top: 120px;
+}
+
+#logo_img img{
+    position: absolute;
+}
+
+.tests .del{
+    color: red;
+    cursor: pointer;
+    padding-bottom: 10px;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.tests .del:hover{
+    border-bottom: none;
+}
+
+.warning{
+	padding: 10px;
+	background: yellow;
+}
+
+#ie_fatal{
+	display: none;
+}
+<%CSSend%>
+
+<noscript>
+ <div class="warning" >Для работы редактора тестов необходимо включить поддержку JavaScript.</div>
+</noscript>
+
+<div class="warning" id="ie_fatal">Редактор тестов не поддерживает браузеры семейства Internet Explorer.<br>
+Пожаулуйста, установите и воспользуйтесь одним из следующих браузеров: <a href="http://www.mozilla-europe.org/ru/firefox/">Firefox</a>, <a <a href="http://www.google.ru/chrome/">Chrome</a>.
+</div>
+
+<script>
+if(window.ActiveXObject) 
+	$('ie_fatal').style.display="block"
+</script>
+
+<div id="logo_img"><img src="/media/logo.png"></div>
+
+<div class="section">
+
+<div id="admin_title">Редактор</div>
+
+<div id="admin_section">
+
+<script>
+    function  delTest(t){
+	if ( confirm("Вы уверены что хотите удалить этот тест?") ) window.location = '/edit/del/'+t
+    }
+</script>
+
+
+<div id="avail_test">
+    <div class="test_edit_title">Доступные тесты:</div>
+    <div id="test_list" class="tests">
+    <!-- TEST_LIST -->
+    </div>
+</div>
+
+<script>
+    if( $('test_list').clientHeight < 100) $('test_list').style.height = '100px'
+    if( $('test_list').getElementsByTagName('a').length == 0 ){
+	$('test_list').innerHTML = 'Нет тестов'
+    }
+</script>
+
+<form id="new_test" action="/edit" method="POST">
+    Новый тест:<br>
+    <div class="tests">
+	Название:  <input name="new_test_name"><br>
+        <input id="start_button" type="submit" value="Добавить">
+	<div id="bottom_line">&nbsp;</div>
+	&nbsp;
+    </div>
+</form>
+
+</div>
+</div>

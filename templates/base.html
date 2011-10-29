@@ -1,0 +1,183 @@
+<html>
+    <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!-- META -->
+	<title>Система тестирования</title>
+	<style>
+        body{
+	    font-family: verdana;
+	    margin:0px 0px; padding:0px;
+	    text-align:center;
+	    background-image: url(/media/background.png);
+        }
+                
+        #content {
+	    width:900px;
+	    margin:0px auto;
+	    text-align:left;
+	    padding:15px;
+        }
+	
+	#topbox{
+	    background-image: url(/media/topbox.png);
+	    width: 100%;
+	    text-align: center;
+	    height: 110px;
+	    font-size: 23pt;
+	    font-weight: bold;
+	    color: #fff;
+	    margin-bottom: 20px;
+	}
+
+	#blue_line{
+	    background-color: #244490;
+	    font-size: 12pt;
+	    margin-top: 10px;
+	    height: 23px
+	}
+	#logo1{
+	    float: left;
+	    position: relative;
+	    left: -75px;
+	    top: -83px;
+	}
+
+	#logo1 img{
+	    position: absolute;
+	}
+
+	#logo2{
+	    float: right;
+	    position: relative;
+	    left: -60px;
+	    top: -51px;
+	}
+
+	#logo2 img{
+	    position: absolute;
+	}
+	
+	.section{
+	    background-color: #fff;
+	    background-image: url(/media/section.png);
+	    background-repeat: repeat-x;
+	}
+
+	    <%CSS%>
+	</style>
+
+<style media="print">
+    #header{
+	display: none;
+    }
+</style>
+	<script>
+function $(id){
+    return document.getElementById(id)
+}
+
+function Caller(action, onerror){
+	this.netHandler = function(){
+		if (this.readyState == 4) {
+			if (this.status == 200){
+
+			    var doc = null;
+			    if(this.responseXML){
+	    			doc = this.responseXML.documentElement
+	    		    }
+	    		    else if(window.ActiveXObject){
+				var xmlDoc=new ActiveXObject('Microsoft.XMLDOM')
+        			xmlDoc.async='false'
+        			xmlDoc.loadXML(this.responseText)
+        			doc = xmlDoc.documentElement
+			    }
+
+			    if (this.action != null)  this.action(doc)
+			}
+			else
+			if (this.onerror != null) this.onerror()
+		}
+	}
+
+	this.execGET = function (url){
+		this.c.open("GET", url)
+		this.c.send('')
+	}
+
+	this.execPOST = function(url, params){
+		this.c.open("POST", url)
+		this.c.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		data = ""
+		for(var i in params)
+		    data += i+'='+encodeURI(params[i])+'&'
+
+		this.c.send(data);
+	}
+
+    if(window.XMLHttpRequest){
+	this.c = new XMLHttpRequest();
+    }else if(window.ActiveXObject){
+	this.c = new ActiveXObject('Microsoft.XMLHTTP');
+    }
+
+
+    if(onerror){
+        this.c.onerror = onerror
+    }
+
+    if(action){
+        this.c.action = action
+        this.c.onreadystatechange = this.netHandler
+    }
+}
+
+
+function ajaxCall(url, callBack, one){
+    var one = (one)?(one):(false);
+
+    var req = null;
+
+    if(window.XMLHttpRequest){
+	req = new XMLHttpRequest();
+    }else if(window.ActiveXObject){
+	req = new ActiveXObject('Microsoft.XMLHTTP');
+    }
+    
+    if(one)
+        callBack.req = req
+    else{
+	if(!callBack.req)
+    	    callBack.req = new Array(req)
+	else
+    	    callBack.req.push(req)
+     }
+
+     req.onreadystatechange = callBack
+     req.open('GET', url, true)
+
+     req.send(null)
+}
+	</script>
+    </head>
+    
+    <body>
+    <div id="content">
+	<div id="header">
+	<!-- INFO_BLOCK -->
+	<div id="topbox">
+	    <div id="logo1"><img src="/media/logo1.png"></div>
+	    <div id="logo2"><img src="/media/logo2.png"></div>
+
+	    Система<br>тестирования
+
+	<div id="blue_line">
+	    <!-- Название учебного заведения -->
+	</div>
+	</div>
+	</div>
+	
+	<!-- CONTENT -->
+    </div>
+    </body>
+</html>

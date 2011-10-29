@@ -1,0 +1,89 @@
+<%CSSstart%>
+.question{
+    padding-bottom: 20px;
+}
+
+.bottom_line{
+    height: 20px;
+    width: 490px;
+    line-height: 10px;
+    border-bottom: solid #000 1px;
+    margin-left: -20px;
+}
+
+#admin_section{
+    padding: 20px 0  0 70px;
+}
+
+#admin_title{
+    padding-top: 20px;
+    margin-bottom: 20px;
+    font-size: 24pt;
+    text-align: center;
+}
+
+.ctrl_button{
+    background-color: #cdba6c;
+    border: none;
+    padding: 3px 20px 3px 50px;
+    color: #fff;
+    font-size: 13pt;
+    margin: 10px 0 40px 50px;
+    width: 300px;
+    text-align: center;
+}
+
+.hint{
+    border: solid #000 1px;
+    background-color: #e8a38d;
+    padding: 10px;
+    width: 70%;
+}
+
+
+.ctrl_button a{
+    color: #fff;
+    text-decoration: none;
+}
+
+.end_button{
+    background-color: #cd936c;
+}
+
+#result{
+    padding: 30px 0 30px 0;
+}
+
+.right_answer{
+    font-weight: bold;
+}
+
+.wrong_answer{
+    color: red;
+}
+
+.left_answer{
+    color: lightgray;
+}
+
+<%CSSend%>
+
+<div class="section">
+
+<div id="admin_section">
+
+<div id="result">
+<div id="user_name">Тестируемый: <!-- USER_NAME --> <!-- USER_RANK --></div>
+
+<div id="test_title">Тест: <!-- TEST_TITLE --></div>
+
+<div id="questions">Всего вопросов <!-- QUESTION_COUNT --> из них правильно <!-- ANSWERED_QUESTION_COUNT --> (<!-- ANSWERED_QUESTION_COUNT_PERCENT -->%)</div>
+<div id="points">Набрано баллов: <!-- TEST_RESULT --></div>
+
+<div id="date"><!-- DATE --></div>
+</div>
+
+<!-- TEST -->
+
+</div>
+</div>
